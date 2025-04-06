@@ -1,9 +1,12 @@
 import './App.css'
+import JoinCreateChat from "./components/JoinCreateChat";
 
 function App() {
 
   return (
-    <div>this is main page</div>
+    <div>
+      <JoinCreateChat />
+    </div>
   )
 }
 
