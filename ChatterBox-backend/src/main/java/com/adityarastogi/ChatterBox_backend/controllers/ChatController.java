@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.adityarastogi.ChatterBox_backend.entities.Message;
 import com.adityarastogi.ChatterBox_backend.entities.Room;
+import com.adityarastogi.ChatterBox_backend.playload.MessageRequest;
 import com.adityarastogi.ChatterBox_backend.repositories.RoomRepository;
-
-import playload.MessageRequest;
 
 import java.time.LocalDateTime;
 

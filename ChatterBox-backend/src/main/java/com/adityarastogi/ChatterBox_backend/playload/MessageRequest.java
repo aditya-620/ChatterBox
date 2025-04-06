@@ -1,4 +1,4 @@
-package playload;
+package com.adityarastogi.ChatterBox_backend.playload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
