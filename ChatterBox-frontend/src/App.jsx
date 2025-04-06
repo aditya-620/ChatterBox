@@ -1,4 +1,5 @@
-import './App.css'
+import "./App.css";
+
 import JoinCreateChat from "./components/JoinCreateChat";
 
 function App() {
@@ -7,7 +8,7 @@ function App() {
     <div>
       <JoinCreateChat />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
