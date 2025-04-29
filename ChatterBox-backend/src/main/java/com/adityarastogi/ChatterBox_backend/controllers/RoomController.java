@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/rooms")
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin(origins = "${app.cors.allowed-origin}")
 public class RoomController {
     
     private RoomRepository roomRepository;

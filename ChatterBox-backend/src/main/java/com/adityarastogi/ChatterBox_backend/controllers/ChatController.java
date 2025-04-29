@@ -16,7 +16,7 @@ import com.adityarastogi.ChatterBox_backend.utils.EncryptionUtil;
 import java.time.LocalDateTime;
 
 @Controller
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin(origins = "${app.cors.allowed-origin}")
 public class ChatController {
 
 

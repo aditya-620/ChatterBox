@@ -28,7 +28,7 @@ const ChatPage = () => {
     }
   }, [connected, roomId, currentUser]);
 
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]); // Ensure messages is initialized as an array
   const [input, setInput] = useState("");
   const inputRef = useRef(null);
   const chatBoxRef = useRef(null);
@@ -40,15 +40,22 @@ const ChatPage = () => {
   useEffect(() => {
     async function loadMessages() {
       try {
-        const messages = await getMessagess(roomId);
-        // console.log(messages);
-        setMessages(messages);
-      } catch (error) {}
+        const response = await getMessagess(roomId);
+        if (Array.isArray(response)) {
+          setMessages(response); // Set messages only if it's an array
+        } else {
+          setMessages([]); // Fallback to an empty array if response is not an array
+        }
+      } catch (error) {
+        console.error("Failed to load messages:", error);
+        setMessages([]); // Fallback to an empty array on error
+      }
     }
+
     if (connected) {
       loadMessages();
     }
-  }, []);
+  }, [connected, roomId]);
 
   //scroll down
 
@@ -66,25 +73,32 @@ const ChatPage = () => {
 
   useEffect(() => {
     const connectWebSocket = () => {
-      ///SockJS
+      if (!baseURL) {
+        console.error("baseURL is not defined. Check your .env configuration.");
+        return;
+      }
+
       const sock = new SockJS(`${baseURL}/chat`);
       const client = Stomp.over(sock);
 
-      client.connect({}, () => {
-        setStompClient(client);
+      client.connect(
+        {},
+        () => {
+          setStompClient(client);
+          toast.success("Connected to WebSocket");
 
-        toast.success("connected");
+          client.subscribe(`/topic/room/${roomId}`, (message) => {
+            console.log(message);
 
-        client.subscribe(`/topic/room/${roomId}`, (message) => {
-          console.log(message);
-
-          const newMessage = JSON.parse(message.body);
-
-          setMessages((prev) => [...prev, newMessage]);
-
-          //rest of the work after success receiving the message
-        });
-      });
+            const newMessage = JSON.parse(message.body);
+            setMessages((prev) => [...prev, newMessage]);
+          });
+        },
+        (error) => {
+          console.error("WebSocket connection error:", error);
+          toast.error("Failed to connect to WebSocket");
+        }
+      );
     };
 
     if (connected) {
