@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import com.adityarastogi.ChatterBox_backend.entities.Message;
 import com.adityarastogi.ChatterBox_backend.entities.Room;
 import com.adityarastogi.ChatterBox_backend.repositories.RoomRepository;
+import com.adityarastogi.ChatterBox_backend.utils.EncryptionUtil;
 
 import java.util.List;
 
@@ -66,13 +67,21 @@ public class RoomController {
         if (room == null) {
             return ResponseEntity.badRequest().build();
         }
-        //get messages :
-        //pagination
+
         List<Message> messages = room.getMessages();
         int start = Math.max(0, messages.size() - (page + 1) * size);
         int end = Math.min(messages.size(), start + size);
         List<Message> paginatedMessages = messages.subList(start, end);
-        return ResponseEntity.ok(paginatedMessages);
 
+        // Decrypt messages before sending them to the client
+        paginatedMessages.forEach(message -> {
+            try {
+                message.setContent(EncryptionUtil.decrypt(message.getContent()));
+            } catch (Exception e) {
+                throw new RuntimeException("Error while decrypting message", e);
+            }
+        });
+
+        return ResponseEntity.ok(paginatedMessages);
     }
 }
