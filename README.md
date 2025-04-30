@@ -188,9 +188,9 @@ The encryption key is hardcoded in the backend's `EncryptionUtil` class.
 
 ---
 
-## 🐳 Docker Support
+## Docker Support
 
-### 🔧 Build and Run the Backend with Docker
+### Build and Run the Backend with Docker
 
 1. Navigate to the backend directory:
    ```bash
@@ -209,7 +209,7 @@ The encryption key is hardcoded in the backend's `EncryptionUtil` class.
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the **MIT License**.  
 See the [LICENSE](LICENSE) file for details.
